@@ -3,6 +3,7 @@ from openpyxl import Workbook
 from openpyxl import load_workbook
 import time
 
+
 # Tutorial en vídeo: https://youtu.be/1Pl1FWHKHXQ
 
 # Genera una API Key desde https://openai.com/api
@@ -22,7 +23,7 @@ def ChatGPT(pregunta):
 
 
 
-document = 'Sustantivos_Aleman.xlsx'
+document = 'Sustantivos_Aleman_Completo.xlsx'
 
 Book = load_workbook(document)
 
@@ -43,6 +44,7 @@ while (str(Page.cell(contadorVertical,1).value) != 'None'):
         time.sleep(20)
 
     contadorVertical += 1
+    Book.save('Sustantivos_Aleman_Completo.xlsx')
 
 
 
