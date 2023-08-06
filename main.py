@@ -46,18 +46,32 @@ while (str(Page.cell(contadorVertical,1).value) != 'None'):
     #fill the column of "Palabra plural en aleman"
     if (str(Page.cell(contadorVertical,3).value) == 'None'):
 
-        respuesta = Page.cell(contadorVertical,2).value = ChatGPT("schreibt den Plural von " + str(Page.cell(contadorVertical,2).value) + "mit seinem Artikel")
+        respuesta = ChatGPT("schreibt den Plural von " + str(Page.cell(contadorVertical,2).value) + "mit seinem Artikel")
         
-        if len(respuesta.split(" ")) == 2:
+        if len(respuesta.split(" ")) == 2 or len(str(Page.cell(contadorVertical,1).value).split(" ")) != 2:
             print("la respuesta de gpt es correta")
             Page.cell(contadorVertical,3).value = respuesta
             print(str(Page.cell(contadorVertical,2).value) + " - " + str(Page.cell(contadorVertical,3).value))
 
         else:
             print("la respuesta de gpt no es correta: " + respuesta)
-        
+       
         time.sleep(20)
     
+    #fill the column of "Frase en Aleman"
+    if (str(Page.cell(contadorVertical,4).value) == 'None'):
+        FraseAleman = ChatGPT("Schreibe einen Satz auf Deutsch mit diesem Wort: " + str(Page.cell(contadorVertical,2).value))
+        Page.cell(contadorVertical,4).value = FraseAleman
+        print(FraseAleman)
+        time.sleep(20)
+
+    #fill the column of frase en español
+    if (str(Page.cell(contadorVertical,5).value) == 'None'):
+        FraseEspañol = ChatGPT("Übersetze diesen Satz ins Spanische: " + str(Page.cell(contadorVertical,4).value))
+        Page.cell(contadorVertical,5).value = FraseEspañol
+        print(FraseEspañol)
+        time.sleep(20)
+
     contadorVertical += 1
     Book.save('Sustantivos_Aleman_Completo.xlsx')
 
