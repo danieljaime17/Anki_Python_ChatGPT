@@ -46,20 +46,17 @@ while (str(Page.cell(contadorVertical,1).value) != 'None'):
     #fill the column of "Palabra plural en aleman"
     if (str(Page.cell(contadorVertical,3).value) == 'None'):
 
-        respuesta = ChatGPT("escribe " + str(Page.cell(contadorVertical,2).value) + "en plural en aleman, escribeme solo el articulo dereminado y la palabra")
+        #respuesta = ChatGPT("escribe " + str(Page.cell(contadorVertical,2).value) + "en plural en aleman, escribeme solo el articulo dereminado y la palabra")
+        respuesta = Page.cell(contadorVertical,2).value = ChatGPT("Traduceme esta palabra del español al aleman en plural : " + str(Page.cell(contadorVertical,1).value))
         print(respuesta)
-        respuesta = respuesta.split(":")
-        Page.cell(contadorVertical,3).value = respuesta[0]
+        #respuesta = respuesta.split(":")
+        Page.cell(contadorVertical,3).value = respuesta
         time.sleep(20)
         print(str(Page.cell(contadorVertical,2).value) + " - " + str(Page.cell(contadorVertical,3).value))
         
     
-
-    Book.save('Sustantivos_Aleman_Completo.xlsx')
     contadorVertical += 1
     Book.save('Sustantivos_Aleman_Completo.xlsx')
-
-
 
 
 Book.save('Sustantivos_Aleman_Completo.xlsx')
