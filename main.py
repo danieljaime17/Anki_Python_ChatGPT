@@ -22,7 +22,7 @@ def ChatGPT(pregunta):
 
 
 
-document = 'Sustantivos_Aleman.xlsx'
+document = 'Sustantivos_Aleman_Completo.xlsx'
 
 Book = load_workbook(document)
 
@@ -39,9 +39,22 @@ while (str(Page.cell(contadorVertical,1).value) != 'None'):
     if (str(Page.cell(contadorVertical,2).value) == 'None'):
 
         Page.cell(contadorVertical,2).value = ChatGPT("Traduceme esta palabra del español al aleman : " + str(Page.cell(contadorVertical,1).value))
-        print(str(Page.cell(contadorVertical,1).value) + " - " + str(Page.cell(contadorVertical,2).value))
         time.sleep(20)
+        print(str(Page.cell(contadorVertical,1).value) + " - " + str(Page.cell(contadorVertical,2).value))
+        
+    #fill the column of "Palabra plural en aleman"
+    if (str(Page.cell(contadorVertical,3).value) == 'None'):
 
+        respuesta = ChatGPT("escribe " + str(Page.cell(contadorVertical,2).value) + "en plural en aleman, escribeme solo el articulo dereminado y la palabra")
+        print(respuesta)
+        respuesta = respuesta.split(":")
+        Page.cell(contadorVertical,3).value = respuesta[0]
+        time.sleep(20)
+        print(str(Page.cell(contadorVertical,2).value) + " - " + str(Page.cell(contadorVertical,3).value))
+        
+    
+
+    Book.save('Sustantivos_Aleman_Completo.xlsx')
     contadorVertical += 1
 
 
