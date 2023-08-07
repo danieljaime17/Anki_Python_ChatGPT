@@ -4,8 +4,6 @@ from openpyxl import load_workbook
 import time
 
 
-# Tutorial en vídeo: https://youtu.be/1Pl1FWHKHXQ
-
 # Genera una API Key desde https://openai.com/api
 openai.api_key = "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"
 
@@ -54,7 +52,7 @@ while (str(Page.cell(contadorVertical,1).value) != 'None'):
             print(str(Page.cell(contadorVertical,2).value) + " - " + str(Page.cell(contadorVertical,3).value))
 
         else:
-            print("la respuesta de gpt no es correta: " + respuesta)
+            print("la respuesta de gpt no es correta, será descartada: " + respuesta)
        
         time.sleep(20)
     
