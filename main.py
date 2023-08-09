@@ -5,7 +5,7 @@ import time
 
 
 # Genera una API Key desde https://openai.com/api
-openai.api_key = "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"
+openai.api_key = "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"
 
 
 def ChatGPT_Word(pregunta):
@@ -53,20 +53,26 @@ while (str(Page.cell(contadorVertical,1).value) != 'None'):
 
         Page.cell(contadorVertical,2).value = ChatGPT_Word("Traduceme esta palabra del español al aleman : " + str(Page.cell(contadorVertical,1).value))
         time.sleep(20)
+        print("*****************************************************************************")
         print(str(Page.cell(contadorVertical,1).value) + " - " + str(Page.cell(contadorVertical,2).value))
-        
+        print("*****************************************************************************")
+
     #fill the column of "Palabra plural en aleman"
     if (str(Page.cell(contadorVertical,3).value) == 'None'):
 
         respuesta = ChatGPT_Word("schreibt den Plural von " + str(Page.cell(contadorVertical,2).value) + "mit seinem Artikel")
         
         if len(respuesta.split(" ")) == 2 or len(str(Page.cell(contadorVertical,1).value).split(" ")) != 2:
+            print("*****************************************************************************")
             print("la respuesta de gpt es correta")
             Page.cell(contadorVertical,3).value = respuesta
             print(str(Page.cell(contadorVertical,2).value) + " - " + str(Page.cell(contadorVertical,3).value))
+            print("*****************************************************************************")
 
         else:
+            print("*****************************************************************************") 
             print("la respuesta de gpt no es correta, será descartada: " + respuesta)
+            print("*****************************************************************************")
        
         time.sleep(20)
     
@@ -74,14 +80,18 @@ while (str(Page.cell(contadorVertical,1).value) != 'None'):
     if (str(Page.cell(contadorVertical,4).value) == 'None'):
         FraseAleman = ChatGPT_Sentence("Schreibe einen Satz auf Deutsch mit diesem Wort: " + str(Page.cell(contadorVertical,2).value))
         Page.cell(contadorVertical,4).value = FraseAleman
+        print("*****************************************************************************")
         print(FraseAleman)
+        print("*****************************************************************************")
         time.sleep(20)
 
     #fill the column of frase en español
     if (str(Page.cell(contadorVertical,5).value) == 'None'):
         FraseEspañol = ChatGPT_Sentence("Übersetze diesen Satz ins Spanische: " + str(Page.cell(contadorVertical,4).value))
         Page.cell(contadorVertical,5).value = FraseEspañol
+        print("*****************************************************************************")
         print(FraseEspañol)
+        print("*****************************************************************************")
         time.sleep(20)
 
     contadorVertical += 1
