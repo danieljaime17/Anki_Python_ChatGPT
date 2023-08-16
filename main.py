@@ -3,9 +3,10 @@ from openpyxl import Workbook
 from openpyxl import load_workbook
 import time
 
+#all of this software is suitable to be used with the version of Anki Versión 2.1.65 (aa9a734f)
 
 # Genera una API Key desde https://openai.com/api
-openai.api_key = "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"
+openai.api_key = "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"
 
 
 def ChatGPT_Word(pregunta):
@@ -35,38 +36,44 @@ def ChatGPT_Sentence(pregunta):
 
 
 
-document = 'Sustantivos_Aleman_Completo.xlsx'
+document = 'Libro1.xlsx'
 
 Book = load_workbook(document)
 
-Page = Book['Hoja 1']
+Page = Book['Aleman__Sustantivos']
+
+C_Sustantivo_Español = 4            #1
+C_Sustantivo_Aleman = 5             #2
+C_Sustantivo_Aleman_Plural = 6      #3
+C_Frase_Aleman = 7                  #4
+C_Frase_Español = 8                 #5
 
 
 
 
 contadorVertical = 1
 
-while (str(Page.cell(contadorVertical,1).value) != 'None'):
+while (str(Page.cell(contadorVertical,C_Sustantivo_Español).value) != 'None' or str(Page.cell(contadorVertical,C_Sustantivo_Aleman).value) != 'None'):
 
     #fill the column of "Sustantivo aleman"
-    if (str(Page.cell(contadorVertical,2).value) == 'None'):
+    if (str(Page.cell(contadorVertical,C_Sustantivo_Aleman).value) == 'None'):
 
-        Page.cell(contadorVertical,2).value = ChatGPT_Word("Traduceme esta palabra del español al aleman : " + str(Page.cell(contadorVertical,1).value))
+        Page.cell(contadorVertical,C_Sustantivo_Aleman).value = ChatGPT_Word("Traduceme esta palabra del español al aleman : " + str(Page.cell(contadorVertical,C_Sustantivo_Español).value))
         time.sleep(20)
         print("*****************************************************************************")
-        print(str(Page.cell(contadorVertical,1).value) + " - " + str(Page.cell(contadorVertical,2).value))
+        print(str(Page.cell(contadorVertical,C_Sustantivo_Español).value) + " - " + str(Page.cell(contadorVertical,C_Sustantivo_Aleman).value))
         print("*****************************************************************************")
 
     #fill the column of "Palabra plural en aleman"
-    if (str(Page.cell(contadorVertical,3).value) == 'None'):
+    if (str(Page.cell(contadorVertical,C_Sustantivo_Aleman_Plural).value) == 'None'):
 
-        respuesta = ChatGPT_Word("schreibt den Plural von " + str(Page.cell(contadorVertical,2).value) + "mit seinem Artikel")
+        respuesta = ChatGPT_Word("schreibt den Plural von " + str(Page.cell(contadorVertical,C_Sustantivo_Aleman).value) + "mit seinem Artikel")
         
-        if len(respuesta.split(" ")) == 2 or len(str(Page.cell(contadorVertical,1).value).split(" ")) != 2:
+        if len(respuesta.split(" ")) == 2 or len(str(Page.cell(contadorVertical,C_Sustantivo_Español).value).split(" ")) != 2:
             print("*****************************************************************************")
             print("la respuesta de gpt es correta")
-            Page.cell(contadorVertical,3).value = respuesta
-            print(str(Page.cell(contadorVertical,2).value) + " - " + str(Page.cell(contadorVertical,3).value))
+            Page.cell(contadorVertical,C_Sustantivo_Aleman_Plural).value = respuesta
+            print(str(Page.cell(contadorVertical,C_Sustantivo_Aleman).value) + " - " + str(Page.cell(contadorVertical,C_Sustantivo_Aleman_Plural).value))
             print("*****************************************************************************")
 
         else:
@@ -77,26 +84,35 @@ while (str(Page.cell(contadorVertical,1).value) != 'None'):
         time.sleep(20)
     
     #fill the column of "Frase en Aleman"
-    if (str(Page.cell(contadorVertical,4).value) == 'None'):
-        FraseAleman = ChatGPT_Sentence("Schreibe einen Satz auf Deutsch mit diesem Wort: " + str(Page.cell(contadorVertical,2).value))
-        Page.cell(contadorVertical,4).value = FraseAleman
+    if (str(Page.cell(contadorVertical,C_Frase_Aleman).value) == 'None'):
+        FraseAleman = ChatGPT_Sentence("dime una frase en aleman con la palabra (" + str(Page.cell(contadorVertical,C_Sustantivo_Aleman).value) + "escribeme solo la frase, nada mas")
+        Page.cell(contadorVertical,C_Frase_Aleman).value = FraseAleman
         print("*****************************************************************************")
         print(FraseAleman)
         print("*****************************************************************************")
         time.sleep(20)
 
     #fill the column of frase en español
-    if (str(Page.cell(contadorVertical,5).value) == 'None'):
-        FraseEspañol = ChatGPT_Sentence("Übersetze diesen Satz ins Spanische: " + str(Page.cell(contadorVertical,4).value))
-        Page.cell(contadorVertical,5).value = FraseEspañol
+    if (str(Page.cell(contadorVertical,C_Frase_Español).value) == 'None'):
+        FraseEspañol = ChatGPT_Sentence("Traduce la frase al español: " + str(Page.cell(contadorVertical,C_Frase_Aleman).value) + "escribeme solo la frase, nada mas")
+        Page.cell(contadorVertical,C_Frase_Español).value = FraseEspañol
         print("*****************************************************************************")
         print(FraseEspañol)
         print("*****************************************************************************")
         time.sleep(20)
 
+    #format corrector, the format should be this 'das Haus'
+#
+#
+#
+#
+#
+#
+#
+
     contadorVertical += 1
-    Book.save('Sustantivos_Aleman_Completo.xlsx')
+    Book.save('Libro1.xlsx')
 
 
-Book.save('Sustantivos_Aleman_Completo.xlsx')
+Book.save('Libro1.xlsx')
 Book.close()
